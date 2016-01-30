@@ -8,6 +8,7 @@ var Imports         = require('../utils/Imports');
 var makeRuleBuilder = require('../utils/RuleBuilder');
 var CodeBuilder     = require('../utils/CodeBuilder');
 var ucb             = require('../utils/UserCodeBuilder');
+var makeBoxed       = require('../utils/Boxed');
 
 /// @type String: Строка с именем типа для генерируемых констант
 /// @prefix String: Строка с префиксом переменных для генерируемых констант
@@ -102,6 +103,8 @@ function generateJavaCode(ast, options) {
   /// Возвращает имя функции для разбора правила с указанным именем
   function r(name) { return prefix + name; }
   function _(localName) { return imports.resolve(localName); }
+
+  var boxed = makeBoxed(_);
 
   function generateSimplePredicate(expression, negative, builder) {
     // Ошибки в предикатах нет нужды сообщать, т.к. мы только делаем проверку.
@@ -215,6 +218,7 @@ function generateJavaCode(ast, options) {
       node.initializers.forEach(generate);
 
       var defaultRule = asts.findRule(ast, options.allowedStartRules[0]);
+      var defaultType = boxed(defaultRule.returnType);
       var userCodeClass = java.className + 'UserCode';
 
       var b = new CodeBuilder([]);
@@ -246,7 +250,7 @@ function generateJavaCode(ast, options) {
         '@' + _('Grammar'),
         'public class ' + java.className
           + ' extends ' + (java.baseClass ? java.baseClass : _('State'))
-          + ' implements ' + _('IParser') + '<' + _('Object') + '>'
+          + ' implements ' + _('IParser') + '<' + defaultType + '>'
           + ' {'
       );
 
@@ -258,7 +262,7 @@ function generateJavaCode(ast, options) {
       b.push('/*~~~~~~~~~~~~~~~~~ ALLOWED START RULES ~~~~~~~~~~~~~~~~~~*/');
       options.allowedStartRules.forEach(function(name) {
         var rule = asts.findRule(ast, name);
-        var type = _('Object');
+        var type = boxed(rule.returnType);
         b.indent('public static final '
           + _('IBaseParser')+'<' + type + '> '
           + toUpperSnakeCase(rule.name)
@@ -292,9 +296,9 @@ function generateJavaCode(ast, options) {
         '',
         '//<editor-fold defaultstate="collapsed" desc="API">',
         '@' + _('Override'),
-        'public ' + _('Object') + ' parse(' + _('CharSequence') + ' input) {',
+        'public ' + defaultType + ' parse(' + _('CharSequence') + ' input) {',
         '    super.init(input);',
-        '    return super.finalize(' + r(defaultRule.name) + '());',
+        '    return (' + defaultType + ')super.finalize(' + r(defaultRule.name) + '());',
         '}',
         '@' + _('Override'),
         'public Object parse(' + _('CharSequence') + ' input, ' + _('String') + ' startRule) {',
@@ -303,9 +307,9 @@ function generateJavaCode(ast, options) {
         '}',
         '',
         '@' + _('Override'),
-        'public ' + _('Object') + ' parse(' + _('ByteBuffer') + ' input) {',
+        'public ' + defaultType + ' parse(' + _('ByteBuffer') + ' input) {',
         '    super.init(input);',
-        '    return super.finalize(' + r(defaultRule.name) + '());',
+        '    return (' + defaultType + ')super.finalize(' + r(defaultRule.name) + '());',
         '}',
         '@' + _('Override'),
         'public Object parse(' + _('ByteBuffer') + ' input, ' + _('String') + ' startRule) {',
@@ -314,9 +318,9 @@ function generateJavaCode(ast, options) {
         '}',
         '',
         '@' + _('Override'),
-        'public ' + _('Object') + ' parse(byte[] input) {',
+        'public ' + defaultType + ' parse(byte[] input) {',
         '    super.init(input);',
-        '    return super.finalize(' + r(defaultRule.name) + '());',
+        '    return (' + defaultType + ')super.finalize(' + r(defaultRule.name) + '());',
         '}',
         '@' + _('Override'),
         'public Object parse(byte[] input, ' + _('String') + ' startRule) {',
@@ -508,7 +512,7 @@ function generateJavaCode(ast, options) {
       var env = objects.clone(builder.env);
       // После вычисления выражения его результат попадет в следующую переменную, поэтому увеличиваем
       // номер переменной на 1.
-      builder.env[node.label] = builder.sp + 1;
+      builder.env[node.label] = { index: builder.sp + 1, type: node.returnType };
 
       // В выражении мы все еще можем переиспользовать переменные, поэтому тут увеличение не требуется.
       return generate(node.expression, builder.child(builder.sp, env, null));

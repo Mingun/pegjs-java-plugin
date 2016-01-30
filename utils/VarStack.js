@@ -65,9 +65,10 @@ function VarStack(type, varName) {
   this.args = function(env) {
     var r = [];
     for (var k in env) if (env.hasOwnProperty(k)) {
+      var e = env[k];
       r.push({
-        name: s(env[k]),
-        type: type,
+        name: s(e.index),
+        type: e.type,
       });
     }
     return r;

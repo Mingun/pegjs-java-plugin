@@ -6,12 +6,17 @@ var namespaces = {};
 
 /// @varName Префикс имен функций, генерируемых данной функцией.
 function makeFunctionBuilder(varName) {
-  function n1(i, args) { return varName + i + '(' + args.map(function(a) { return a.name; }).join(', ') + ')'; }
+  function n1(i, args) {
+    return varName + i
+      + '('
+      + args.map(a => '(' + a.type + ')' + a.name).join(', ')
+      + ')';
+  }
   function n2(f, i) {
     return f.type + ' '
       + varName + i
       + '('
-      + f.params.map(function(p) { return p.type + ' ' + p.name; }).join(', ')
+      + f.params.map(p => p.type + ' ' + p.name).join(', ')
       + ')';
   }
   function declare(f, i) { return n2(f, i) + ';'; }
@@ -118,7 +123,7 @@ module.exports = {
   },
   addAction: function(node, params, args) {
     namespaces[node.namespace] = namespaces[node.namespace] || {};
-    return actions.add(node.namespace, node.code, 'Object', params, args);
+    return actions.add(node.namespace, node.code, node.returnType, params, args);
   },
   /// Заполняет указанный CodeBuilder кодом реализации функций для действий и предикатов
   /// для указанного пространства имен.
