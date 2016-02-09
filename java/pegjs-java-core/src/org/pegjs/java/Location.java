@@ -31,7 +31,7 @@ import java.io.Serializable;
  * месте разбора. Также содержит методы для разбора листовых правил - литералов
  * и шаблонов, а также любого символа.
  *
- * @autor Mingun
+ * @author Mingun
  */
 public final class Location implements Cloneable, Serializable {
     private static final long serialVersionUID = -8097211791330238764L;

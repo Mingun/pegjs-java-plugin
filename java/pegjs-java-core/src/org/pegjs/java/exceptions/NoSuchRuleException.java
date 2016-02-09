@@ -23,6 +23,8 @@
  */
 package org.pegjs.java.exceptions;
 
+import org.pegjs.java.IParser;
+
 /**
  * Данное исключение выкидывается, если правило разбора, указанное в {@link IParser#parse
  * семействе методов parse} не найдено разбор с данного правила не может быть начат

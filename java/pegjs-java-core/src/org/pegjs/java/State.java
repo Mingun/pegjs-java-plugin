@@ -38,7 +38,7 @@ import org.pegjs.java.exceptions.SyntaxError;
  * месте разбора. Также содержит методы для разбора листовых правил - литералов
  * и шаблонов, а также любого символа.
  *
- * @autor Mingun
+ * @author Mingun
  */
 public class State extends Expect implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Поля и константы">
@@ -133,12 +133,12 @@ public class State extends Expect implements Serializable {
     /**
      * Возвращает подпоследовательность, представляющую текущий разбираемый элемент грамматики.
      * При вызове из предикатов это всегда пустая подпоследовательность.
-     * При вызове из действий представляет подпоследовательность, соответствующей {@link location()
+     * При вызове из действий представляет подпоследовательность, соответствующей {@link #location()
      * текущему региону} разбираемой последовательности, для которого в грамматике задано выполняемое
      * действие.
      *
-     * @return Подпоследовательность {@link input() разбираемой последовательности}, соответствующей
-     *         текущей {@link location() позиции} в разбираемых данных.
+     * @return Подпоследовательность {@link #input() разбираемой последовательности}, соответствующей
+     *         текущей {@link #location() позиции} в разбираемых данных.
      */
     public CharSequence text() {
         return location().region(input());
@@ -159,7 +159,7 @@ public class State extends Expect implements Serializable {
         );
     }
     /**
-     * Немедленно прерывает разбор, формируя синтаксическую ошибку в {@link location() текущей}
+     * Немедленно прерывает разбор, формируя синтаксическую ошибку в {@link #location() текущей}
      * позиции разбора.
      * @param value Значение, которое будет являться описанием и ожидаемым значением в текущей
      *        позиции. Данное значение будет частью стандартного сообщения об ошибке.
@@ -176,7 +176,7 @@ public class State extends Expect implements Serializable {
         throw new SyntaxError(message, (SortedSet<Expected>)null, location, found(location));
     }
     /**
-     * Немедленно прерывает разбор, формируя синтаксическую ошибку в {@link location() текущей}
+     * Немедленно прерывает разбор, формируя синтаксическую ошибку в {@link #location() текущей}
      * позиции разбора.
      * @param message Сообщение об ошибке, как оно будет возвращено пользователю.
      */
@@ -187,7 +187,7 @@ public class State extends Expect implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Функции разбора базовых элементов грамматики">
     /**
-     * @return Character с сопоставившемся символом или константу {@link IParser.FAILED}
+     * @return Character с сопоставившемся символом или константу {@link IParser#FAILED}
      *         в случае неудачи сопоставления (конца разбираемых данных).
      */
     protected final Object parseAny() {
@@ -199,7 +199,7 @@ public class State extends Expect implements Serializable {
         return fail(ANY);
     }
     /**
-     * @return Character с сопоставившемся символом или константу {@link IParser.FAILED}
+     * @return Character с сопоставившемся символом или константу {@link IParser#FAILED}
      *         в случае неудачи сопоставления.
      */
     protected final Object parsePattern(Pattern pattern, Expected expected, boolean inverse) {
@@ -218,7 +218,7 @@ public class State extends Expect implements Serializable {
      *        позиции не соответствует тексту проверяемой строки.
      * @param ignoreCase Если `true`, сопоставление литерала с текстом в текущей позиции
      *        будет производится без учета регистра символов.
-     * @return CharSequence с сопоставившейся подпоследовательностью или константу {@link IParser.FAILED}
+     * @return CharSequence с сопоставившейся подпоследовательностью или константу {@link IParser#FAILED}
      *         в случае неудачи сопоставления.
      */
     protected final Object parseLiteral(String literal, Expected expected, boolean ignoreCase) {
