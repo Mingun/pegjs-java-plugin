@@ -1,0 +1,7 @@
+MethodArgumentCouldBeFinal
+ShortVariable
+ConfusingTernary
+ProperCloneImplementation
+UnusedModifier
+BeanMembersShouldSerialize
+AvoidFieldNameMatchingMethodName

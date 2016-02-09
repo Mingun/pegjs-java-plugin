@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Expect implements Serializable {
+    private static final long serialVersionUID = 5192938999614921064L;
+
     /**
      * Позиция, в которой ожидается появление элементов грамматики,
      * перечисленных в {@link #candidates}.

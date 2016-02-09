@@ -32,7 +32,9 @@ package org.pegjs.java.exceptions;
  * @author Mingun
  */
 public class NoSuchRuleException extends PEGException {
-    public NoSuchRuleException() {}
+    private static final long serialVersionUID = -2199775879685087797L;
+
+    public NoSuchRuleException() { super(); }
     public NoSuchRuleException(String message) { super(message); }
     public NoSuchRuleException(Throwable cause) { super(cause); }
     public NoSuchRuleException(String message, Throwable cause) { super(message, cause); }

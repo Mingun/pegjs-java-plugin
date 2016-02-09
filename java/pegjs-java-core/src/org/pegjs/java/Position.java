@@ -34,6 +34,8 @@ import java.io.Serializable;
  * @autor Mingun
  */
 public final class Position implements Cloneable, Comparable<Position>, Serializable {
+    private static final long serialVersionUID = -6351749547057584171L;
+
     /** Смещение в символах от начала разбираемых данных (нумерация с 0). */
     int offset = 0;
     private int line = 1;
@@ -84,7 +86,7 @@ public final class Position implements Cloneable, Comparable<Position>, Serializ
     }
     protected void next(CharSequence input, int to) {
         for (int i = offset; i < to; ++i) {
-            char ch = input.charAt(i);
+            final char ch = input.charAt(i);
             next(ch);
         }
     }

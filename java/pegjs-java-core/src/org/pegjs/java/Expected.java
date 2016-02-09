@@ -23,7 +23,11 @@
  */
 package org.pegjs.java;
 
-public final class Expected implements Comparable<Expected> {
+import java.io.Serializable;
+
+public final class Expected implements Comparable<Expected>, Serializable {
+    private static final long serialVersionUID = -3295644301826056328L;
+
     public enum Type {
         /** Ожидается любой символ, однако был обнаружен конец данных. */
         ANY,

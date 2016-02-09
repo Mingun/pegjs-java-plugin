@@ -29,7 +29,9 @@ package org.pegjs.java.exceptions;
  * @author Mingun
  */
 public class PEGException extends RuntimeException {
-    public PEGException() {}
+    private static final long serialVersionUID = -6617831940713465193L;
+
+    public PEGException() { super(); }
     public PEGException(String message) { super(message); }
     public PEGException(Throwable cause) { super(cause); }
     public PEGException(String message, Throwable cause) { super(message, cause); }

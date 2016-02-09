@@ -34,6 +34,8 @@ import java.io.Serializable;
  * @autor Mingun
  */
 public final class Location implements Cloneable, Serializable {
+    private static final long serialVersionUID = -8097211791330238764L;
+
     private final Position start;
     private final Position end;
 

@@ -42,6 +42,7 @@ import org.pegjs.java.exceptions.SyntaxError;
  */
 public class State extends Expect implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Поля и константы">
+    private static final long serialVersionUID = -5577139531082551736L;
     private static final Expected ANY = new Expected(Expected.Type.ANY, null, "any character");
     private static final Expected EOF = new Expected(Expected.Type.EOF, null, "end of input");
 

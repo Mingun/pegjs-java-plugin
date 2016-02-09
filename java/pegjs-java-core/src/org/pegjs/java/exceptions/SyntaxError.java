@@ -17,6 +17,8 @@ import org.pegjs.java.Location;
  * @author Mingun
  */
 public class SyntaxError extends PEGException {
+    private static final long serialVersionUID = -752047789955231813L;
+
     /** Множество ожидаемых элементов грамматики в позиции возникновения ошибки. Немодифицируемое множество. */
     public final SortedSet<Expected> candidates;
     /** Позиция, в которой обнаружена ошибка. */
